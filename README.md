@@ -1,10 +1,10 @@
-# Unified Payments Gateway (UPI Payment UI)
+# Unified Payments Gateway
 
-A modern, user-friendly unified payment gateway built with Flask and Razorpay integration. This application provides a seamless UPI payment experience with multiple payment options and beautiful UI.
+Unified payments system integrating Razorpay for UPI and online payments, including signature verification and automated transaction storage.
 
 ## 🎯 Project Overview
 
-The Unified Payments Gateway is a Flask-based web application that integrates with Razorpay to process payments securely. It provides an intuitive interface for users to select payment amounts and complete transactions through UPI, debit cards, and other payment methods supported by Razorpay.
+The Unified Payments Gateway is a Flask-based web application that integrates with Razorpay to securely process payments. It provides an intuitive interface that allows users to select payment amounts and complete transactions using UPI, debit cards, and other payment methods supported by Razorpay.
 
 ## ✨ Features
 
@@ -17,58 +17,29 @@ The Unified Payments Gateway is a Flask-based web application that integrates wi
 - **Responsive Design** - Works seamlessly on desktop, tablet, and mobile devices
 - **Payment History** - Track and store payment details
 
-## 📁 Project Structure
-
-\`\`\`
-unified-payments-gateway/
-├── app.py                    # Flask backend application
-├── requirements.txt          # Python dependencies
-├── test-config.py           # Configuration testing
-├── .gitignore               # Git ignore file
-│
-├── templates/               # HTML templates
-│   ├── index.html          # Home page with amount selection
-│   ├── payment.html        # Payment processing page
-│   └── success.html        # Payment confirmation page
-│
-├── static/                  # Static files (CSS, JS)
-│   └── [stylesheets & scripts]
-│
-├── payment_detail/          # Payment records storage
-│   └── [payment history]
-│
-└── images/                  # Screenshots
-    ├── Screenshot-1.png
-    ├── Screenshot-2.png
-    ├── Screenshot-3.png
-    ├── Screenshot-4.png
-    ├── Screenshot-5.png
-    └── Screenshot-6.png
-\`\`\`
 
 ## 📸 Screenshots
 
-### Screenshot 1 - Home Page / Amount Selection
+### Screenshot 1
 ![Home Page](./images/Screenshot-1.png)
 The landing page where users can enter or select the payment amount they want to transfer.
 
-### Screenshot 2 - Payment Options
+### Screenshot 2
 ![Payment Options](./images/Screenshot-2.png)
 Display of predefined payment amount options for quick selection.
 
-### Screenshot 3 - Payment Gateway Integration
+### Screenshot 3 -
 ![Payment Gateway](./images/Screenshot-3.png)
 Razorpay payment gateway integration interface with payment method selection.
 
-### Screenshot 4 - UPI Payment Interface
+### Screenshot 4
 ![UPI Interface](./images/Screenshot-4.png)
 UPI-specific payment interface showing payment details and confirmation options.
 
-### Screenshot 5 - Payment Processing
-![Processing](./images/Screenshot-5.png)
-Payment processing status and transaction details during payment confirmation.
+### Screenshot 5
+![Success Page](./images/Screenshot-5.png)
 
-### Screenshot 6 - Success Page
+### Screenshot 6
 ![Success Page](./images/Screenshot-6.png)
 Confirmation page displaying successful payment completion with transaction details.
 
@@ -210,53 +181,3 @@ Payment Details Stored
 
 All completed transactions are stored in the `payment_detail/` directory for record-keeping and audit purposes.
 
-## 🎨 UI/UX Highlights
-
-- **Modern Design**: Gradient backgrounds and smooth animations
-- **User-Friendly**: Intuitive navigation and clear instructions
-- **Responsive Layout**: Adapts to all screen sizes
-- **Real-time Feedback**: Immediate validation and status updates
-- **Professional Appearance**: Modern card-based design with proper spacing
-
-## 🤝 Integration with Razorpay
-
-This application uses Razorpay's payment gateway API for:
-- Secure payment processing
-- Multiple payment method support
-- Real-time transaction status
-- Automatic settlement
-- Transaction reporting
-
-## 📱 Mobile Support
-
-The application is fully responsive and works on:
-- Desktop browsers
-- Tablets
-- Mobile phones (iOS & Android)
-
-## ✅ Quality Assurance
-
-- Amount displays correctly (no unwanted multiplication)
-- Payment gateway integration tested
-- Responsive design verified across devices
-- Transaction confirmation working properly
-
-## 📞 Support
-
-For issues or questions:
-1. Check the troubleshooting section
-2. Verify Razorpay API configuration
-3. Review Flask logs for detailed error messages
-4. Contact Razorpay support for payment-related issues
-
-## 📄 License
-
-This project is built for educational and commercial payment processing purposes.
-
----
-
-**Last Updated**: November 23, 2025
-
-**Version**: 1.0.0
-
-**Status**: ✅ Active & Maintained
