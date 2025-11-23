@@ -1,63 +1,212 @@
-<!-- templates/payment.html -->
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Complete Payment</title>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  </head>
-  <body>
-    <h1>Complete your payment</h1>
-    <button id="rzp-button">Pay Now</button>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: white;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-size: 14px;
+            color: #a0aec0;
+            margin-top: 5px;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 50px 40px;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .container h2 {
+            color: #1a1a2e;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .container p {
+            color: #718096;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .amount-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .amount-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 8px;
+        }
+
+        .amount-value {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+            color: #48bb78;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .lock-icon {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>💳 PayFlow</h1>
+        <p>Secure UPI Payment Gateway</p>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2>Complete Your Payment</h2>
+            <p>Review and confirm your payment details</p>
+
+            <div class="amount-box">
+                <div class="amount-label">Amount to Pay</div>
+                <!-- Display amount by dividing paise by 100 to get INR value -->
+                <div class="amount-value" id="displayAmount">₹ --</div>
+            </div>
+
+            <button id="rzp-button">Proceed to Pay</button>
+
+            <div class="security-badge">
+                <span class="lock-icon">🔒</span>
+                <span>Secured by Razorpay</span>
+            </div>
+        </div>
+    </main>
 
     <script>
-      var options = {
-        key: '{{ key }}',
-        amount: "{{ payment['amount'] }}",
-        currency: 'INR',
-        name: 'Your Company Name',
-        description: 'UPI Payment',
-        order_id: "{{ payment['id'] }}",
-      
-        handler: function (response) {
-          var form = document.createElement('form')
-          form.method = 'POST'
-          form.action = '/success'
-      
-          // Payment ID
-          var payment_id = document.createElement('input')
-          payment_id.name = 'razorpay_payment_id'
-          payment_id.value = response.razorpay_payment_id
-          form.appendChild(payment_id)
-      
-          // Order ID
-          var order_id = document.createElement('input')
-          order_id.name = 'razorpay_order_id'
-          order_id.value = response.razorpay_order_id
-          form.appendChild(order_id)
-      
-          // Signature
-          var signature = document.createElement('input')
-          signature.name = 'razorpay_signature'
-          signature.value = response.razorpay_signature
-          form.appendChild(signature)
-      
-          document.body.appendChild(form)
-          form.submit()
-        },
-      
-        prefill: {
-          name: 'Arpita Vishwakarma',
-          email: 'your-email@example.com'
-        },
-        theme: {
-          color: '#3399cc'
+        var amountInPaise = {{ payment['amount'] }};
+        var amountInINR = amountInPaise / 100;
+        
+        document.getElementById('displayAmount').textContent = '₹ ' + amountInINR.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+        var options = {
+            key: '{{ key }}',
+            amount: amountInPaise,
+            currency: 'INR',
+            name: 'PayFlow',
+            description: 'UPI Payment',
+            order_id: "{{ payment['id'] }}",
+        
+            handler: function (response) {
+                var form = document.createElement('form')
+                form.method = 'POST'
+                form.action = '/success'
+            
+                var payment_id = document.createElement('input')
+                payment_id.name = 'razorpay_payment_id'
+                payment_id.value = response.razorpay_payment_id
+                form.appendChild(payment_id)
+            
+                var order_id = document.createElement('input')
+                order_id.name = 'razorpay_order_id'
+                order_id.value = response.razorpay_order_id
+                form.appendChild(order_id)
+            
+                var signature = document.createElement('input')
+                signature.name = 'razorpay_signature'
+                signature.value = response.razorpay_signature
+                form.appendChild(signature)
+            
+                document.body.appendChild(form)
+                form.submit()
+            },
+        
+            prefill: {
+                name: 'Customer',
+                email: 'customer@example.com'
+            },
+            theme: {
+                color: '#667eea'
+            }
         }
-      }
-      var rzp1 = new Razorpay(options)
-      document.getElementById('rzp-button').onclick = function (e) {
-        rzp1.open()
-        e.preventDefault()
-      }
+        var rzp1 = new Razorpay(options)
+        document.getElementById('rzp-button').onclick = function (e) {
+            rzp1.open()
+            e.preventDefault()
+        }
     </script>
-  </body>
+</body>
 </html>
