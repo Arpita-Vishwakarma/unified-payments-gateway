@@ -1,0 +1,63 @@
+<!-- templates/payment.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Complete Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  </head>
+  <body>
+    <h1>Complete your payment</h1>
+    <button id="rzp-button">Pay Now</button>
+
+    <script>
+      var options = {
+        key: '{{ key }}',
+        amount: "{{ payment['amount'] }}",
+        currency: 'INR',
+        name: 'Your Company Name',
+        description: 'UPI Payment',
+        order_id: "{{ payment['id'] }}",
+      
+        handler: function (response) {
+          var form = document.createElement('form')
+          form.method = 'POST'
+          form.action = '/success'
+      
+          // Payment ID
+          var payment_id = document.createElement('input')
+          payment_id.name = 'razorpay_payment_id'
+          payment_id.value = response.razorpay_payment_id
+          form.appendChild(payment_id)
+      
+          // Order ID
+          var order_id = document.createElement('input')
+          order_id.name = 'razorpay_order_id'
+          order_id.value = response.razorpay_order_id
+          form.appendChild(order_id)
+      
+          // Signature
+          var signature = document.createElement('input')
+          signature.name = 'razorpay_signature'
+          signature.value = response.razorpay_signature
+          form.appendChild(signature)
+      
+          document.body.appendChild(form)
+          form.submit()
+        },
+      
+        prefill: {
+          name: 'Arpita Vishwakarma',
+          email: 'your-email@example.com'
+        },
+        theme: {
+          color: '#3399cc'
+        }
+      }
+      var rzp1 = new Razorpay(options)
+      document.getElementById('rzp-button').onclick = function (e) {
+        rzp1.open()
+        e.preventDefault()
+      }
+    </script>
+  </body>
+</html>
